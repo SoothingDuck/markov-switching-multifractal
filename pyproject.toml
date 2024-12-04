@@ -4,9 +4,18 @@ version = "0.1.0"
 description = ""
 authors = ["Orpheus <orpheus@mampang.com>"]
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.12"
+numba = "^0.60.0"
+numpy = "2.0.2"
+pandas = "^2.2.3"
+statsmodels = "^0.14.4"
+scipy = "^1.14.1"
+matplotlib = "^3.9.3"
+seaborn = "^0.13.2"
+pyqt6 = "^6.7.1"
 
 
 [tool.poetry.group.dev.dependencies]
