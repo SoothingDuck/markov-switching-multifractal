@@ -38,11 +38,11 @@ kbar = 4  # None
 # Simulated data, 60% in-sample for estimation, 40% out-of-sample for forecasts.  See Section 4 re rationale for simulated data
 # https://en.wikipedia.org/wiki/Markov_switching_multifractal
 # Transition parameter
-b = 6
+b = 6  # Doit être > 1
 # Marginal distribuation parameter
 m0 = 1.6
 # First gamma
-gamma_kbar = 0.8
+gamma_kbar = 0.8  # Doit être < 1.0
 # Constant vol parameter
 sig = 2 / np.sqrt(252)
 # N days simulation
@@ -65,6 +65,8 @@ for i in range(1, kbar):  # range(1, 2)
     g_s[i] = 1 - (1 - g_s[0]) ** (b ** (i))
 for j in range(kbar):
     M_s[j, :] = np.random.binomial(1, g_s[j], T)
+
+g_s  # array([0.00742341, 0.043722  , 0.23527551, 0.8       ])
 
 M_s.shape  # (4, 7087)
 M_s[0, :]  # array([0., 0., 0., ..., 0., 0., 0.])
