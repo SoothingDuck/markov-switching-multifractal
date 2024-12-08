@@ -32,15 +32,25 @@ sns.set(style="ticks", palette="muted")
 matplotlib.use("qtAgg")
 
 # Set kbar
+# Nombre de binomial
 kbar = 4
 
 # Simulated data, 60% in-sample for estimation, 40% out-of-sample for forecasts.  See Section 4 re rationale for simulated data
+# https://en.wikipedia.org/wiki/Markov_switching_multifractal
+# Transition parameter
 b = 6
+# Marginal distribuation parameter
 m0 = 1.6
+# First gamma
 gamma_kbar = 0.8
+# Constant vol parameter
 sig = 2 / np.sqrt(252)
+# N days simulation
 T = 7087
+# split
 E = np.rint(0.6 * T).astype(int)
+
+# Step by step simulation
 
 dat1 = simulatedata(b, m0, gamma_kbar, sig, kbar, T)
 dat1E = dat1[0:E,]
