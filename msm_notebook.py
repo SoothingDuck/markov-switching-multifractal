@@ -33,7 +33,7 @@ matplotlib.use("qtAgg")
 
 # Set kbar
 # Nombre de binomial
-kbar = 4
+kbar = 4  # None
 
 # Simulated data, 60% in-sample for estimation, 40% out-of-sample for forecasts.  See Section 4 re rationale for simulated data
 # https://en.wikipedia.org/wiki/Markov_switching_multifractal
@@ -51,10 +51,48 @@ T = 7087
 E = np.rint(0.6 * T).astype(int)
 
 # Step by step simulation
+m0 = m0
+m1 = 2 - m0
+m0  # 1.6
+m1  # 0.3999999999999999
+g_s = np.zeros(kbar)  # array([0., 0., 0., 0.])
+g_s
+M_s = np.zeros((kbar, T))  # None
+M_s.shape  # (2, 7087)
+g_s[0] = 1 - (1 - gamma_kbar) ** (1 / (b ** (kbar - 1)))  # None
+g_s  # array([0.23527551, 0.        ])
+for i in range(1, kbar):  # range(1, 2)
+    g_s[i] = 1 - (1 - g_s[0]) ** (b ** (i))
+for j in range(kbar):
+    M_s[j, :] = np.random.binomial(1, g_s[j], T)
+
+M_s.shape  # (4, 7087)
+M_s[0, :]  # array([0., 0., 0., ..., 0., 0., 0.])
+M_s[1, :]  # array([0., 0., 0., ..., 0., 0., 0.])
+M_s[2, :]  # array([1., 0., 1., ..., 0., 0., 0.])
+M_s[3, :]  # array([1., 1., 1., ..., 1., 1., 1.])
+
+dat = np.zeros(T)  # None
+dat.shape  # (7087,)
+tmp = (M_s[:, 0] == 1) * m1 + (M_s[:, 0] == 0) * m0  # None
+tmp  # array([1.6, 1.6, 0.4, 0.4])
+dat[0] = np.prod(tmp)  # None
+dat[0]  # np.float64(0.4095999999999999)
+for k in range(1, T):
+    for j in range(kbar):
+        if M_s[j, k] == 1:
+            tmp[j] = np.random.choice([m0, m1], 1, p=[0.5, 0.5])
+    dat[k] = np.prod(tmp)
+dat.shape  # (7087,)
+dat = np.sqrt(dat) * sig * np.random.normal(size=T)  # VOL TIME SCALING
+# None
+dat = dat.reshape(-1, 1)  # None
 
 dat1 = simulatedata(b, m0, gamma_kbar, sig, kbar, T)
-dat1E = dat1[0:E,]
-dat1F = dat1[E:,]
+dat1.shape  # (7087, 1)
+
+dat1E = dat1[0:E,]  # None
+dat1F = dat1[E:,]  # None
 
 # DEXJPUS, 60% in-sample for estimation, 40% out-of-sample for forecasts
 dat2 = pd.read_csv("DEXJPUS.csv")
