@@ -201,10 +201,11 @@ print(
 )
 >>>>>>> 1d385105391985d93f171d5ab877b355eab3b043
 
+
 # + [markdown] Collapsed="false"
 # # Time series analysis
-
-<<<<<<< HEAD
+#
+# <<<<<<< HEAD
 # + Collapsed="false"
 def tsdisplay(y, figsize = (16,9), title = "", color = ""):
     tmp_data = pd.Series(y)
